@@ -1,0 +1,144 @@
+
+// =================================
+// SpendWise Interactive Budget App
+// =================================
+
+// 1. Variables
+const totalBudget = 50000;
+let expenses = [];
+
+// 2. Select HTML elements (DOM)
+const budgetDisplay = document.getElementById("budget");
+const expensesDisplay = document.getElementById("expenses");
+const balanceDisplay = document.getElementById("balance");
+
+const expenseForm = document.getElementById("expense-form");
+const expenseList = document.getElementById("expense-list");
+const message = document.getElementById("message");
+
+// 3. Display budget information
+function updateDashboard() {
+
+    let totalExpenses = 0;
+
+    // Loop through expense records
+    for (let i = 0; i < expenses.length; i++) {
+        totalExpenses += expenses[i].amount;
+    }
+
+    const remainingBalance = totalBudget - totalExpenses;
+
+    budgetDisplay.textContent =
+        "KSh " + totalBudget.toLocaleString();
+
+    expensesDisplay.textContent =
+        "KSh " + totalExpenses.toLocaleString();
+
+    balanceDisplay.textContent =
+        "KSh " + remainingBalance.toLocaleString();
+
+    // Conditional statements
+    if (remainingBalance < 0) {
+        balanceDisplay.style.color = "red";
+        message.textContent = "Warning! You have exceeded your budget.";
+    } else if (remainingBalance === 0) {
+        balanceDisplay.style.color = "orange";
+        message.textContent = "You have used your entire budget.";
+    } else {
+        balanceDisplay.style.color = "green";
+        message.textContent = "Great! You are within your budget.";
+    }
+}
+
+// 4. Display expenses on the webpage
+function displayExpenses() {
+
+    expenseList.innerHTML = "";
+
+    // Loop through the array
+    expenses.forEach(function(expense, index) {
+
+        const row = document.createElement("tr");
+
+        const nameCell = document.createElement("td");
+        nameCell.textContent = expense.name;
+
+        const categoryCell = document.createElement("td");
+        categoryCell.textContent = expense.category;
+
+        const amountCell = document.createElement("td");
+        amountCell.textContent =
+            "KSh " + expense.amount.toLocaleString();
+
+        const actionCell = document.createElement("td");
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "delete-btn";
+        deleteButton.dataset.index = index;
+
+        actionCell.appendChild(deleteButton);
+
+        row.appendChild(nameCell);
+        row.appendChild(categoryCell);
+        row.appendChild(amountCell);
+        row.appendChild(actionCell);
+
+        expenseList.appendChild(row);
+    });
+
+    updateDashboard();
+}
+
+// 5. Handle form submission
+expenseForm.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const name = document.getElementById("expense-name").value.trim();
+
+    const amount = Number(
+        document.getElementById("expense-amount").value
+    );
+
+    const category = document.getElementById("expense-category").value;
+
+    // Validate user input
+    if (!name || !category || !Number.isFinite(amount) || amount <= 0) {
+        message.textContent = "Please enter valid expense details.";
+        return;
+    }
+
+    // Add expense to array
+    expenses.push({
+        name: name,
+        amount: amount,
+        category: category
+    });
+
+    // Update the webpage
+    displayExpenses();
+
+    // Clear form
+    expenseForm.reset();
+});
+
+// 6. Handle delete button clicks
+expenseList.addEventListener("click", function(event) {
+
+    if (event.target.classList.contains("delete-btn")) {
+
+        const index = Number(event.target.dataset.index);
+
+        // Remove expense from array
+        expenses.splice(index, 1);
+
+        // Refresh dashboard
+        displayExpenses();
+    }
+});
+
+// 7. Initial dashboard display
+displayExpenses();
+
+console.log("SpendWise application loaded successfully.");
