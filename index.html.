@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpendWise - Budget Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <h1>SpendWise</h1>
+        <p>Manage your money. Build your future.</p>
+    </header>
+
+    <main class="container">
+
+        <section class="summary">
+            <article class="card">
+                <h3>Total Budget</h3>
+                <p id="budget">KSh 50,000</p>
+            </article>
+
+            <article class="card">
+                <h3>Total Expenses</h3>
+                <p id="expenses">KSh 0</p>
+            </article>
+
+            <article class="card">
+                <h3>Remaining Balance</h3>
+                <p id="balance">KSh 50,000</p>
+            </article>
+        </section>
+
+        <section class="form-section">
+            <h2>Add New Expense</h2>
+
+            <form id="expense-form">
+                <input
+                    type="text"
+                    id="expense-name"
+                    placeholder="Expense name"
+                    required
+                >
+
+                <input
+                    type="number"
+                    id="expense-amount"
+                    placeholder="Amount in KSh"
+                    min="0.01"
+                    step="0.01"
+                    required
+                >
+
+                <select id="expense-category" required>
+                    <option value="">Select category</option>
+                    <option value="Food">Food</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Savings">Savings</option>
+                    <option value="Utilities">Utilities</option>
+                </select>
+
+                <button type="submit">Add Expense</button>
+            </form>
+
+            <p id="message" aria-live="polite"></p>
+        </section>
+
+        <section class="expenses-section">
+            <h2>Expense Records</h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="expense-list">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 SpendWise. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
